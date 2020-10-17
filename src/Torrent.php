@@ -22,6 +22,7 @@ declare(strict_types=1);
  * @version  0.1.0
  */
 
+
 namespace App;
 
 use Exception;
@@ -204,7 +205,7 @@ class Torrent
     public function comment($comment = null)
     {
         return is_null($comment) ?
-            isset($this->comment) ? $this->comment : null :
+            (isset($this->comment) ? $this->comment : null) :
             $this->touch($this->comment = (string) $comment);
     }
 
@@ -217,7 +218,7 @@ class Torrent
     public function name($name = null)
     {
         return is_null($name) ?
-            isset($this->info['name']) ? $this->info['name'] : null :
+            (isset($this->info['name']) ? $this->info['name'] : null) :
             $this->touch($this->info['name'] = (string) $name);
     }
 
@@ -243,7 +244,7 @@ class Torrent
     public function source($source = null)
     {
         return is_null($source) ?
-            isset($this->info['source']) ? $this->info['source'] : null :
+            (isset($this->info['source']) ? $this->info['source'] : null) :
             $this->touch($this->info['source'] = (string) $source);
     }
 
@@ -268,8 +269,8 @@ class Torrent
      */
     public function httpseeds($urls = null)
     {
-        return is_null($urls) ?
-            isset($this->httpseeds) ? $this->httpseeds : null :
+        return (is_null($urls) ?
+            (isset($this->httpseeds) ? $this->httpseeds : null) :
             $this->touch($this->httpseeds = (array) $urls);
     }
 
@@ -471,6 +472,9 @@ class Torrent
      *
      * @return string formatted size in appropriate unit
      */
+
+
+
     public static function format($size, $precision = 2): string
     {
         $units = [
@@ -641,9 +645,9 @@ class Torrent
                 stream_context_create(['http' => ['timeout' => $timeout]]) :
                 null;
 
-            return !is_null($offset) ? $length ?
+            return !is_null($offset) ? ($length ?
                 @file_get_contents($file, false, $context, $offset, $length) :
-                @file_get_contents($file, false, $context, $offset) :
+                @file_get_contents($file, false, $context, $offset)):
                 @file_get_contents($file, false, $context);
         }
         if (!function_exists('curl_init')) {
@@ -661,9 +665,9 @@ class Torrent
         $size    = curl_getinfo($handle, CURLINFO_CONTENT_LENGTH_DOWNLOAD);
         curl_close($handle);
 
-        return ($offset && $size === -1) || ($length && $length !== $size) ? $length ?
+        return ($offset && $size === -1) || ($length && $length !== $size) ? ($length ?
             substr($content, $offset, $length) :
-            substr($content, $offset) :
+            substr($content, $offset)):
             $content;
     }
 
