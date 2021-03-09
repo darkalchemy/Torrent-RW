@@ -8,7 +8,7 @@ require __DIR__ . '/../vendor/autoload.php';
 
 $file    = './bin/Torrent RW Demo.torrent';
 $torrent = new Torrent($file);
-$br      = PHP_SAPI === 'cli' ? PHP_EOL : "\n";
+$br      = PHP_SAPI === 'cli' ? PHP_EOL : '<br>';
 $udp     = 'udp://tracker.opentrackr.org:1337/announce';
 $http    = 'http://tracker.opentrackr.org:1337/announce';
 $https   = 'https://w.wwwww.wtf:443/announce';
@@ -16,8 +16,7 @@ $alt1    = 'http://file-hosting.domain/path/';
 $alt2    = 'http://another-file-hosting.domain/path/';
 
 if (!isset($argv[1]) || $argv[1] !== 'send') {
-    echo
-        $br,  'private:      ', $torrent->is_private() ? 'yes' : 'no',
+    echo $br,  'private:      ', $torrent->is_private() ? 'yes' : 'no',
         $br,  'announce:     ';
     if (is_array($torrent->announce())) {
         echo 'array (';
@@ -28,8 +27,7 @@ if (!isset($argv[1]) || $argv[1] !== 'send') {
     } else {
         echo $torrent->announce();
     }
-    echo
-        $br,  'name:         ', $torrent->name(),
+    echo $br,  'name:         ', $torrent->name(),
         $br,  'comment:      ', $torrent->comment(),
         $br,  'piece_length: ', $torrent->piece_length(),
         $br,  'size:         ', $torrent->size(2),
@@ -40,15 +38,14 @@ if (!isset($argv[1]) || $argv[1] !== 'send') {
         var_export($torrent->scrape());
     } catch (Exception $e) {
         var_export($torrent->errors());
-        die();
+        exit();
     }
     echo $br,  'content: ';
     var_export($torrent->content());
     echo $br,  'source:   ', $file;
 
     // Magnet links
-    echo
-        $br, 'magnet link:   ', $torrent->magnet(),
+    echo $br, 'magnet link:   ', $torrent->magnet(),
         $br, $br,  'use $torrent->magnet( false ); to get non html encoded ampersand',
         $br, 'magnet link:   ', $torrent->magnet(false), $br, $br;
 
@@ -58,7 +55,7 @@ if (!isset($argv[1]) || $argv[1] !== 'send') {
         $torrent->save('test_hidden.torrent');
         var_export($torrent->content());
     } catch (Exception $e) {
-        die($torrent->errors());
+        exit($torrent->errors());
     }
 
     // Create a torrent, include hidden files and folders
@@ -68,7 +65,7 @@ if (!isset($argv[1]) || $argv[1] !== 'send') {
         echo $br, $br;
         var_export($torrent->content());
     } catch (Exception $e) {
-        die($torrent->errors());
+        exit($torrent->errors());
     }
 
     // Modify a torrent
