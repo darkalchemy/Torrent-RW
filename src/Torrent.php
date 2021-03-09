@@ -115,7 +115,7 @@ class Torrent
      *
      * @return string encoded torrent data
      */
-    public function __toString()
+    public function __toString(): string
     {
         return (string) self::encode($this);
     }
@@ -204,7 +204,7 @@ class Torrent
     public function comment($comment = null)
     {
         return is_null($comment) ?
-            isset($this->comment) ? $this->comment : null :
+            $this->comment ?? null :
             $this->touch($this->comment = (string) $comment);
     }
 
@@ -217,7 +217,7 @@ class Torrent
     public function name($name = null)
     {
         return is_null($name) ?
-            isset($this->info['name']) ? $this->info['name'] : null :
+            $this->info['name'] ?? null :
             $this->touch($this->info['name'] = (string) $name);
     }
 
@@ -243,7 +243,7 @@ class Torrent
     public function source($source = null)
     {
         return is_null($source) ?
-            isset($this->info['source']) ? $this->info['source'] : null :
+            $this->info['source'] ?? null :
             $this->touch($this->info['source'] = (string) $source);
     }
 
@@ -269,7 +269,7 @@ class Torrent
     public function httpseeds($urls = null)
     {
         return is_null($urls) ?
-            isset($this->httpseeds) ? $this->httpseeds : null :
+            $this->httpseeds ?? null :
             $this->touch($this->httpseeds = (array) $urls);
     }
 
