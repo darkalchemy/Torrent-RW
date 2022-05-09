@@ -13,17 +13,19 @@
     }
   ],
   "require": {
-    "php": "^7.2|^8.0",
+    "php": "^7.4|^8.0",
     "ext-curl": "*",
     "darkalchemy/scrapeer": "^0.6.3"
   },
   "require-dev": {
-    "friendsofphp/php-cs-fixer": "^2.16",
-    "overtrue/phplint": "^2.0",
-    "phpstan/phpstan": "^0.12.32",
-    "roave/security-advisories": "dev-master",
-    "squizlabs/php_codesniffer": "3.*",
-    "symfony/var-dumper": "^5.1"
+    "friendsofphp/php-cs-fixer": "^3.0",
+    "overtrue/phplint": "^4.1.0",
+    "phpmd/phpmd": "^2.9",
+    "phpstan/phpstan": "^1.6.7",
+    "phpunit/phpunit": "^9.5.20",
+    "roave/security-advisories": "dev-latest",
+    "squizlabs/php_codesniffer": "^3.5",
+    "symfony/var-dumper": "^6.0.8"
   },
   "autoload": {
     "psr-4": {
@@ -33,12 +35,19 @@
   "config": {
     "sort-packages": true
   },
-  "scripts": {
-    "cleanup": "vendor/friendsofphp/php-cs-fixer/php-cs-fixer fix --show-progress=dots -vvv",
-    "post-install-cmd": "composer dump-autoload -o",
-    "post-update-cmd": "composer dump-autoload -o",
-    "phplint": "phplint ./ --exclude=vendor --no-cache --jobs=10 --ansi",
-    "phpcs": "phpcs -s",
-    "phpstan": "phpstan analyse src/ -l4"
-  }
+    "scripts": {
+        "cleanup": [
+            "vendor/friendsofphp/php-cs-fixer/php-cs-fixer fix --show-progress=dots -vvv",
+            "phplint ./ --exclude=vendor --exclude=public/resources --no-cache --jobs=10 --ansi",
+            "phpcs -s",
+            "phpmd . ansi phpmd.xml --exclude */vendor/*",
+            "phpstan analyse -c phpstan.neon"
+        ],
+        "fix": "phpcbf",
+        "post-update-cmd": "composer dump-autoload -o",
+        "phplint": "phplint ./ --exclude=vendor --no-cache --jobs=10 --ansi",
+        "phpcs": "phpcs -s",
+        "phpmd": "phpmd . ansi phpmd.xml --exclude */vendor/*",
+        "phpstan": "phpstan analyse src/ -l8"
+    }
 }

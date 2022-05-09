@@ -19,7 +19,7 @@ declare(strict_types=1);
  *
  * @license  http://www.gnu.org/licenses/gpl.html GNU General Public License version 3
  *
- * @version  0.1.0
+ * @version  0.1.4
  */
 
 namespace App;
